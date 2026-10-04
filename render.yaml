@@ -12,6 +12,6 @@ services:
       - key: AI_PROVIDER
         value: nvidia
       - key: AI_MODEL
-        value: meta/llama-3.3-70b-instruct
+        value: nvidia/nemotron-3-super-120b-a12b
       - key: NVIDIA_API_KEY
         sync: false
