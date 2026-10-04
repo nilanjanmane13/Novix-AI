@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Novix AI — liquid glass design system
+   Surfaces are translucent, blurred and lit from the top-left, floating over
+   a dark violet/black field. All pages use the classes below.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    --glass-fill: linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.035) 55%, rgba(154, 123, 255, 0.05));
+    --glass-fill-strong: linear-gradient(145deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.06) 55%, rgba(154, 123, 255, 0.09));
+    --glass-edge: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.07) 32%, rgba(255, 255, 255, 0.02) 62%, rgba(154, 123, 255, 0.4));
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink-950 font-body text-mist-100 antialiased;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    padding-bottom: var(--safe-bottom);
+  }
+
+  ::selection {
+    background: rgba(124, 92, 252, 0.4);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid #b7a1ff;
+    outline-offset: 2px;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* ---- glass surfaces ---- */
+  .glass,
+  .glass-strong {
+    position: relative;
+    isolation: isolate;
+    background: var(--glass-fill);
+    -webkit-backdrop-filter: blur(26px) saturate(170%);
+    backdrop-filter: blur(26px) saturate(170%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      inset 0 0 36px rgba(154, 123, 255, 0.06),
+      0 24px 60px -28px rgba(0, 0, 0, 0.85),
+      0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  .glass-strong {
+    background: var(--glass-fill-strong);
+    -webkit-backdrop-filter: blur(34px) saturate(190%);
+    backdrop-filter: blur(34px) saturate(190%);
+  }
+
+  /* Gradient hairline edge that makes the pane look like thick glass. */
+  .glass::before,
+  .glass-strong::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--glass-edge);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .glass-flat {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* ---- buttons ---- */
+  .btn-primary,
+  .btn-glass,
+  .btn-danger {
+    @apply inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-3 text-sm font-semibold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+  }
+
+  .btn-primary {
+    @apply text-white;
+    background: linear-gradient(180deg, rgba(178, 152, 255, 0.98) 0%, rgba(116, 74, 245, 0.98) 55%, rgba(88, 48, 205, 0.98) 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -10px 18px rgba(48, 14, 150, 0.45),
+      0 0 0 1px rgba(154, 123, 255, 0.45),
+      0 14px 34px -10px rgba(124, 92, 252, 0.85);
+  }
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -10px 18px rgba(48, 14, 150, 0.4),
+      0 0 0 1px rgba(183, 161, 255, 0.6),
+      0 20px 44px -10px rgba(124, 92, 252, 1);
+  }
+  .btn-primary:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .btn-glass {
+    @apply text-mist-100;
+    background: rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  .btn-glass:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.11);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 0 1px rgba(183, 161, 255, 0.35);
+  }
+
+  .btn-danger {
+    @apply text-white;
+    background: linear-gradient(180deg, rgba(247, 128, 139, 0.95), rgba(214, 62, 82, 0.95));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 12px 28px -10px rgba(245, 112, 124, 0.8);
+  }
+
+  .btn-primary:disabled,
+  .btn-glass:disabled,
+  .btn-danger:disabled {
+    @apply cursor-not-allowed opacity-45;
+  }
+
+  /* ---- form controls ---- */
+  .field-input {
+    @apply w-full rounded-2xl px-4 py-3 text-[15px] text-mist-100 placeholder:text-mist-600;
+    background: rgba(255, 255, 255, 0.045);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    transition: box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .field-input:hover {
+    background: rgba(255, 255, 255, 0.065);
+  }
+  .field-input:focus {
+    @apply outline-none;
+    background: rgba(255, 255, 255, 0.075);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(183, 161, 255, 0.7), 0 0 0 4px rgba(124, 92, 252, 0.18);
+  }
+  .field-input[aria-invalid="true"] {
+    box-shadow: inset 0 0 0 1px rgba(245, 112, 124, 0.7);
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium text-mist-300;
+    background: rgba(255, 255, 255, 0.055);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.07);
+  }
+
+  .text-gradient {
+    background: linear-gradient(180deg, #ffffff 0%, #d9ccff 45%, #9a7bff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(183, 161, 255, 0.35) transparent;
+  }
+  .scroll-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll-thin::-webkit-scrollbar-thumb {
+    background: rgba(183, 161, 255, 0.3);
+    border-radius: 999px;
+  }
+
+  .page-pad {
+    padding-top: calc(var(--safe-top) + 1.25rem);
+  }
+}
+
+/* ---- 3D helpers (landing) ---- */
+.stage {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.tilt-card {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
+
+/* ---- print: the report card prints on white ---- */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  * {
+    color: #14101f !important;
+    -webkit-text-fill-color: #14101f !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    animation: none !important;
+  }
+  .glass,
+  .glass-strong,
+  .glass-flat {
+    background: #fff !important;
+    border: 1px solid #cfc8e6 !important;
+    break-inside: avoid;
+  }
+  .glass::before,
+  .glass-strong::before {
+    display: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-keep {
+    break-inside: avoid;
+  }
+}

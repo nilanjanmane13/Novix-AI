@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: novix-ai
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: AI_PROVIDER
+        value: nvidia
+      - key: AI_MODEL
+        value: meta/llama-3.3-70b-instruct
+      - key: NVIDIA_API_KEY
+        sync: false

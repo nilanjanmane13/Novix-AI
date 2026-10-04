@@ -1,0 +1,31 @@
+{
+  "name": "novix-ai",
+  "version": "1.0.0",
+  "description": "Novix AI \u2014 adaptive technical interview platform.",
+  "main": "index.js",
+  "scripts": {
+    "install:frontend": "npm install --prefix Frontend",
+    "dev:backend": "node --watch Backend/server.js",
+    "dev:frontend": "npm run dev --prefix Frontend",
+    "dev": "concurrently -n backend,frontend -c blue,magenta \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "build": "npm install --prefix Frontend --include=dev && npm run build --prefix Frontend",
+    "build:frontend": "npm run build --prefix Frontend",
+    "start": "node Backend/server.js",
+    "test:backend": "node Backend/tests/mock-e2e.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}
